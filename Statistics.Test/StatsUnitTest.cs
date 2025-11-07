@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using Statistics;
+using System.Collections.Generic;
 
 namespace Statistics.Test
 {
@@ -8,25 +9,33 @@ namespace Statistics.Test
     {
         [Fact]
         public void ReportsAverageMinMax()
-        {
-            var statsComputer = new StatsComputer();
-            var computedStats = statsComputer.CalculateStatistics(
-                new List<___>{98.6, 98.2, 97.8, 102.2});
+        {           
+            var computedStats = StatsComputer.CalculateStatistics(
+                new List<float> { 98.6f, 98.2f, 97.8f, 102.2f });
             float epsilon = 0.001F;
-            Assert.True(Math.Abs(computedStats.average - 99.2) <= epsilon);
-            Assert.True(Math.Abs(computedStats.max - 102.2) <= epsilon);
-            Assert.True(Math.Abs(computedStats.min - 97.8) <= epsilon);
+            Assert.True(Math.Abs(computedStats.Average - 99.2) <= epsilon);
+            Assert.True(Math.Abs(computedStats.Max - 102.2) <= epsilon);
+            Assert.True(Math.Abs(computedStats.Min - 97.8) <= epsilon);
         }
+
         [Fact]
         public void ReportsNaNForEmptyInput()
         {
-            var statsComputer = new StatsComputer();
-            var computedStats = statsComputer.CalculateStatistics(
-                new List<___>{});
-            // All fields of computedStats (average, max, min) must be
-            // Double.NaN (not-a-number), as described in
-            // https://docs.microsoft.com/en-us/dotnet/api/system.double.nan?view=netcore-3.1
-            // Specify the Assert statements here
+            var computedStats = StatsComputer.CalculateStatistics(
+                new List<float>());
+            Assert.True(float.IsNaN(computedStats.Average));
+            Assert.True(float.IsNaN(computedStats.Max));
+            Assert.True(float.IsNaN(computedStats.Min));
+        }
+
+        [Fact]
+        public void ReportsAllValuesIdentical()
+        {
+            var computed = StatsComputer.CalculateStatistics(new List<float> { 99f, 99f, 99f });
+
+            Assert.Equal(99f, computed.Average);
+            Assert.Equal(99f, computed.Max);
+            Assert.Equal(99f, computed.Min);
         }
     }
 }
