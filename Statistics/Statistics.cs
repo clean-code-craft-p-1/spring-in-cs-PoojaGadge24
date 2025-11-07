@@ -19,23 +19,11 @@ namespace Statistics
                 };
             }
 
-            float min = float.PositiveInfinity;
-            float max = float.NegativeInfinity;
-            double sum = 0;
-
-            for (int i = 0; i < numbers.Count; i++)
-            {
-                float currentTemperature = numbers[i];
-                if (currentTemperature < min) min = currentTemperature;
-                if (currentTemperature > max) max = currentTemperature;
-                sum += currentTemperature;
-            }
-
             return new Stats
             {
-                Average = (float)(sum / numbers.Count),
-                Max = max,
-                Min = min
+                Min = numbers.Min(),
+                Max = numbers.Max(),
+                Average = numbers.Average()
             };
         }
     }
